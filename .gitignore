@@ -40,3 +40,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Target ### 
+target/site/serenity/*
+target/site/serenity/*.html
+target/site/serenity/*.txt

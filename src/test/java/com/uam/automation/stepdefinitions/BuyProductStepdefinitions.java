@@ -1,18 +1,17 @@
 package com.uam.automation.stepdefinitions;
 
-import com.uam.automation.questions.GetText;
-
+import com.uam.automation.tasks.AddProduct;
 import com.uam.automation.tasks.LogIn;
 import com.uam.automation.tasks.NavigateTo;
 
+import com.uam.automation.tasks.SearchProduct;
+import com.uam.automation.ui.ProductStore;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import net.serenitybdd.screenplay.Actor;
 
-import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
-import static org.hamcrest.Matchers.*;
 
 public class BuyProductStepdefinitions {
 
@@ -22,7 +21,9 @@ public class BuyProductStepdefinitions {
                 NavigateTo.thePageStore()
         );
         actor.attemptsTo(
-                LogIn.with()
+                LogIn.with(),
+                SearchProduct.with(),
+                AddProduct.with(new ProductStore())
         );
 
     }
