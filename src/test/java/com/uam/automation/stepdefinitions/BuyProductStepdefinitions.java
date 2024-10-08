@@ -1,16 +1,18 @@
 package com.uam.automation.stepdefinitions;
 
-import com.uam.automation.tasks.AddProduct;
-import com.uam.automation.tasks.LogIn;
-import com.uam.automation.tasks.NavigateTo;
+import com.uam.automation.questions.GetText;
+import com.uam.automation.tasks.*;
 
-import com.uam.automation.tasks.SearchProduct;
+import com.uam.automation.ui.PaymentMethodStore;
 import com.uam.automation.ui.ProductStore;
+import com.uam.automation.ui.ShippingAddressStore;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 import net.serenitybdd.screenplay.Actor;
+import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
+import static org.hamcrest.Matchers.*;
 
 
 public class BuyProductStepdefinitions {
@@ -22,22 +24,27 @@ public class BuyProductStepdefinitions {
         );
         actor.attemptsTo(
                 LogIn.with(),
-                SearchProduct.with(),
-                AddProduct.with(new ProductStore())
+                SearchProduct.with()
         );
 
     }
     @When("{actor} add the product on a shopping cart")
     public void submitsForm(Actor actor) {
         actor.attemptsTo(
-                //SubmitForm.with()
+                AddProduct.with(new ProductStore()),
+                FillOutTheNewAddresForm.with(new ShippingAddressStore())
         );
     }
     @Then("{actor} can to make checkout process and ending your buy")
     public void shouldSeeFormSubmitted(Actor actor) {
-//        actor.should(
-//                seeThat("the buy was done successfully",
-//                        GetText.fromTarget(ALERT), containsString("The form was successfully submitted!"))
-//        );
+        actor.attemptsTo(
+                FinalizingPurchase.with()
+        );
+        actor.should(
+                seeThat("Thank you for your purchase!",
+                        GetText.fromTarget(PaymentMethodStore.THANK_YOU_TEXT),
+                        containsString("Thank you for your purchase!")
+                )
+        );
     }
 }

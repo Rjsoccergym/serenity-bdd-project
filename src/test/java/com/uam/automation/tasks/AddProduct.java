@@ -50,16 +50,17 @@ public class AddProduct implements Task {
 
         actor.attemptsTo(
                 Enter.theValue("100").into(QUANTITY_FIELD),
-                Click.on(ADD_TO_CART_BUTTON),
-                Click.on(SHOPPING_CART_BUTTON),
-                Click.on(PROCEED_CHECKOUT_BUTTON)
+                Click.on(ADD_TO_CART_BUTTON)
         );
-
         try {
-            Thread.sleep(10000);  // 10,000 milisegundos = 10 segundos
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        actor.attemptsTo(
+                Click.on(SHOPPING_CART_BUTTON),
+                Click.on(PROCEED_CHECKOUT_BUTTON)
+        );
 
     }
     public static AddProduct with(ProductStore productStore) {
